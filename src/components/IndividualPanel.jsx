@@ -26,7 +26,7 @@ export default function IndividualPanel({ candidate }) {
         <div className="text-gray-800">
           {candidate.role} • {candidate.location}
         </div>
-        <div className="text-gray-800">Exp.: {candidate.years_experience} anos</div>
+        <div className="text-gray-800">Experiência: {candidate.years_experience} anos</div>
         <div className="flex flex-wrap gap-1 pt-2">
           {(candidate.tags || []).map((t) => (
             <span key={t} className="px-2 py-0.5 bg-violet-50 text-violet-700 rounded-full text-xs">

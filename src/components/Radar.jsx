@@ -43,7 +43,7 @@ export default function Radar({
       ))}
       {axes.map((label, i) => {
         const [x, y] = polarPoint(cx, cy, radius, i * angleStep);
-        const [tx, ty] = polarPoint(cx, cy, radius + 12, i * angleStep);
+        const [tx, ty] = polarPoint(cx, cy, radius + 20, i * angleStep);
         return (
           <g key={label}>
             <line x1={cx} y1={cy} x2={x} y2={y} stroke="#e5e7eb" />

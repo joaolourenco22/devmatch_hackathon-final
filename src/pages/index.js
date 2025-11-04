@@ -64,7 +64,7 @@ export default function Home() {
     <div className="bg-[#f5f5f8] min-h-screen p-4">
       <div className="max-w-7xl mx-auto space-y-4">
         <header className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Dashboard do Recrutador</h1>
+          <h1 className="text-4xl text-gray-700 mb-6">Dashboard do Recrutador</h1>
           <div className="text-sm text-gray-800">Peso Hard: {(weightHard * 100).toFixed(0)}%</div>
         </header>
 
@@ -79,11 +79,12 @@ export default function Home() {
 
         <KPIs kpis={kpis} />
 
-
-        <section className="ui-panel p-4">
-          <h2 className="text-sm text-gray-700 mb-2">Radar Individual (Soft Skills)</h2>
-          <IndividualPanel candidate={activeCandidate} />
-        </section>
+        <div>
+          <h2 className="text-3xl text-gray-700 mb-6">Gráfico Individual (Soft Skills)</h2>
+          <section className="ui-panel p-4 flex justify-center">
+            <IndividualPanel candidate={activeCandidate} />
+          </section>
+        </div>
       </div>
     </div>
   );
