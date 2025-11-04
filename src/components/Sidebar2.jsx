@@ -2,9 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 
 const items = [
-  { label: 'Inicio', href: '/' },
+  { label: 'Dashboard', href: '/dashboard' },
   { label: 'Candidatos', href: '/candidatos' },
-  { label: 'Filtrar Talento', href: '#' },
 ];
 
 export default function Sidebar2() {

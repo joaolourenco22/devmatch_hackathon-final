@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CandidateCard({ candidate, index = 0 }) {
+export default function CandidateCard({ candidate, index = 0, onClick }) {
   const accentColors = [
     'var(--primary)',
     'var(--primary-2)',
@@ -67,7 +67,15 @@ export default function CandidateCard({ candidate, index = 0 }) {
   };
 
   return (
-    <article className="ui-panel relative overflow-hidden p-5 hover:shadow-md transition-shadow duration-200" aria-label={`Candidato ${candidate.name}`}>
+    <article
+      className="ui-panel relative overflow-hidden p-5 hover:shadow-md transition-shadow duration-200"
+      aria-label={`Candidato ${candidate.name}`}
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => { if (e.key === 'Enter') onClick(); } : undefined}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
       {/* Accent shape */}
       <div className="absolute -top-6 -left-6 w-28 h-28 bg-[var(--primary-2)] rounded-br-[64px] opacity-90" aria-hidden />
 
