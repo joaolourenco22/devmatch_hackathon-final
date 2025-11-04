@@ -3,9 +3,8 @@ import Image from 'next/image';
 
 const items = [
   { label: 'Inicio', href: '/' },
-  { label: 'Candidatos', href: '#' },
+  { label: 'Candidatos', href: '/?view=candidatos' },
   { label: 'Filtrar Talento', href: '#' },
-
 ];
 
 export default function Sidebar() {
