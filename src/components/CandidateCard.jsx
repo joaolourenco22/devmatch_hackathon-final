@@ -53,13 +53,11 @@ export default function CandidateCard({ candidate, index = 0 }) {
       </div>
 
       <div className="mt-4">
-        <div className="text-xs text-gray-700 mb-2">Assistente de IA</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <button type="button" className="ui-button-primary">✨ Resumir Perfil</button>
-          <button type="button" className="ui-button-primary">✨ Gerar Perguntas de Entrevista</button>
+          <button type="button" className="ui-button-primary"> Resumir Perfil</button>
+          <button type="button" className="ui-button-primary"> Gerar Perguntas de Entrevista</button>
         </div>
       </div>
     </article>
   );
-}
-
+} 

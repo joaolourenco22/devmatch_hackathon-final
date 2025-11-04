@@ -11,11 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Esta constante é relativa às coleções da tua base de dados e deves acrescentar mais se for o caso
-const Nome = require('./models/Nome');
 const Candidate = require('./models/Candidate');
-
-
 
 // ===== ENDPOINTS DA API =====
 
