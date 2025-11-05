@@ -17,24 +17,12 @@ export default function IndividualPanel({ candidate }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+    <div className="grid grid-cols-1 md:grid-cols-1 gap-9 items-center">
+      <p classname="font-semibold justify-center text-yellow-500">{candidate.name}</p>
       <div className="md:col-span-2">
         <Radar title={`Soft Skills de ${candidate.name}`} axes={axes} datasets={[{ label: candidate.name, color: '#7c3aed', values }]} maxValue={100} />
       </div>
-      <div className="space-y-1 text-sm">
-        <div className="font-semibold">{candidate.name}</div>
-        <div className="text-gray-800">
-          {candidate.role} • {candidate.location}
-        </div>
-        <div className="text-gray-800">Exp.: {candidate.years_experience} anos</div>
-        <div className="flex flex-wrap gap-1 pt-2">
-          {(candidate.tags || []).map((t) => (
-            <span key={t} className="px-2 py-0.5 bg-violet-50 text-violet-700 rounded-full text-xs">
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 }

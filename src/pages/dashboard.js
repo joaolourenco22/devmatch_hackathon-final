@@ -73,9 +73,7 @@ export default function Home() {
   return (
     <div className="bg-[#f5f5f8] min-h-screen p-4">
       <div className="max-w-7xl mx-auto space-y-4">
-        <header className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Dashboard do Recrutador</h1>
-        </header>
+        
 
      
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

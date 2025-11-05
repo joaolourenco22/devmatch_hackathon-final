@@ -46,7 +46,7 @@ export default function App({ Component, pageProps }) {
       <main className="flex-1">
         {user && (
           <div className="px-4 py-2 border-b border-gray-200 bg-white/90 flex items-center justify-between">
-            <div className="text-sm text-gray-800">Sessão: <span className="font-medium">{user.name}</span></div>
+            <div className="text-sm text-gray-800"><span className="font-bold">Bem-vindo!</span></div>
             <button onClick={logout} className="text-xs text-gray-600 underline">Sair</button>
           </div>
         )}
