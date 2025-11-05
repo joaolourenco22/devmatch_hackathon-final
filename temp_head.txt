@@ -1,0 +1,6 @@
+  if (s.includes('braga')) return 'Braga';
+  // fallback para manter apenas 4 opções
+  return 'Lisboa';
+}
+
+

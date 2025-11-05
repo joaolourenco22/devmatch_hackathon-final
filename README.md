@@ -1,78 +1,93 @@
 # Dashboard do Recrutador
 
-MVP funcional para listar, filtrar e comparar candidatos combinando métricas de hard skills (mock GitHub) e soft skills (mock quiz), com total_score = 0.6*hard + 0.4*soft (ajustável por query `weight_hard`). Inclui dois gráficos radar (SVG puro): Comparação (até 3 candidatos) e Individual (6 eixos de soft skills).
+Aplicação web para listar, filtrar, ordenar e comparar candidatos, combinando hard skills (mock do GitHub/stack) e soft skills (mock Likert) com visualização em gráfico radar (SVG puro).
 
-## ✨ Funcionalidades
-- [x] Filtros: busca, role, localização, mín. hard/soft, peso hard via slider
-- [x] Ranking de candidatos com ordenação server-side (por total/hard/soft)
-- [x] KPIs: média Hard, média Soft, limiar Top 10% por Total
-- [x] Radar Comparação (até 3): Hard × Soft × Total (SVG)
-- [x] Radar Individual: 6 eixos (soft skills) (SVG)
-- [x] Endpoint de seed com 20 candidatos de exemplo
-- [x] Sem autenticação, responsivo (Tailwind) e acessível (ARIA nos gráficos)
+Principais telas/componentes: página de filtros (filtro.js), cards dos candidatos (CandidateCardAll/CandidateCard), KPI simples e radares (Radar, ComparisonRadar).
 
-## 🛠️ Tecnologias e Ferramentas
-- Next.js ^15, React ^19, TailwindCSS ^4
-- Express ^5, Node.js, CORS, Dotenv
-- MongoDB + Mongoose ^8
-- Nodemon, ESLint
+## Funcionalidades
+- Filtros combináveis: Role, Localização, Home office, Modalidade, Carga, Relocate, Experiência, Stacks (multi), Soft mínimo (Likert 1–5).
+- Ordenação: Score Total, Soft skills, Hard (GitHub).
+- Comparação: seleção de até 3 candidatos com radar comparativo (Hard • Soft • Total).
+- Radar individual de soft skills em cada card (6 eixos).
+- Tema consistente via variáveis CSS em `:root` (cores de painel, texto, borda, primária etc.).
+- Dados mockados ampliados para garantir resultados nas combinações de filtros.
 
-## Como Executar
+## Tecnologias
+- Next.js (React), CSS utilitário (Tailwind via @import) + variáveis CSS personalizadas em `src/styles/globals.css`.
+- SVG puro para gráficos (componente `Radar`).
 
-1. Instalar dependências
+## Como executar
+1) Instalar dependências
 ```bash
 npm install
 ```
 
-2. Configurar variáveis de ambiente (`.env` na raiz)
-```env
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
-NODE_ENV=development
-PORT=3000
-```
-
-3. Iniciar em desenvolvimento
+2) Rodar em desenvolvimento
 ```bash
 npm run dev
 ```
 
-4. Acessar
-- Interface: http://localhost:3000
-- API: http://localhost:3000/api/candidates, /api/kpis, /api/seed
+3) Acessar
+- App: http://localhost:3000
+- Página de filtros: http://localhost:3000/filtro
 
-5. Popular base (opcional)
-```bash
-curl -X POST "http://localhost:3000/api/seed?reset=true"
+Observação: a aplicação funciona 100% com dados mockados (não requer backend/DB). Os módulos em `src/services/api.js` e `server.js` podem ser ignorados para o fluxo de mocks.
+
+## Dados mockados (e localização)
+- A lista de candidatos é expandida automaticamente a partir de um conjunto base para aumentar a diversidade.
+- As localizações foram normalizadas para quatro opções: Porto, Lisboa, Algarve e Braga (apenas estas devem aparecer no filtro de Localização).
+
+## Como usar os filtros
+- Role: seleção exata do cargo.
+- Stacks: seleção múltipla (todos os itens selecionados devem existir no candidato).
+- Home office/Modalidade/Localização: quando Home office = “Sim” ou Modalidade = “Remoto”, o filtro de Localização é desativado.
+- Experiência: mapeia para anos mínimos.
+- Soft mínimo: média Likert (1–5) convertida internamente para 0–100; ex.: 4.0 equivale a ≥ 80.
+- Ordenar por: altera a ordenação sem mudar o conjunto filtrado.
+- Chips de “Filtros ativos” mostram/removem rapidamente critérios aplicados.
+- Botão “Aplicar Filtros” roda a filtragem/ordenação com o estado atual.
+
+## Comparação de candidatos
+- Marque até 3 candidatos clicando no seletor no canto do card.
+- A seção “Selecionados para comparação” mostra chips e o radar comparativo.
+
+## Tema e Cores
+As cores são definidas em `src/styles/globals.css` (seção `:root`). Componentes usam as variáveis abaixo para manter consistência entre claro/escuro:
+- `--background`, `--foreground`
+- `--primary`, `--primary-2`
+- `--panel-bg`, `--panel-border`, `--panel-shadow`
+- `--text-muted`
+
+## Estrutura do projeto
 ```
-
-## Estrutura do Projeto
-
-```
-lib/
-  mongodb.js              # Conexão MongoDB (cache de conexão)
-models/
-  Nome.js                 # Modelo legado de exemplo
-  Candidate.js            # Modelo do candidato
 src/
+  components/
+    CandidateCard.jsx
+    CandidateCardAll.jsx
+    ComparisonRadar.jsx
+    Filters.jsx
+    KPIs.jsx
+    Nav.jsx
+    Radar.jsx
+    Ranking.jsx
+    Sidebar2.jsx
   pages/
     _app.js
     _document.js
-    index.js              # Dashboard: filtros, KPIs, ranking, radares
+    index.js
+    filtro.js             # Página principal de filtros (usa mocks)
   services/
-    api.js                # Chamadas a /api/candidates, /api/kpis, /api/seed
+    api.js                # Módulos de API (não necessários para mocks)
   styles/
-    globals.css
-server.js                 # Next + Express + API endpoints
+    globals.css           # Variáveis de tema e utilitários
+server.js                 # Next + Express (opcional)
 ```
 
-## Como Testar Rápido
-- Rodar `npm run dev` e abrir `http://localhost:3000`
-- Se não houver dados, clique em “Aplicar Filtros” (a página tenta semear automaticamente na primeira carga). Ou use o endpoint de seed manualmente.
+## Dicas e solução de problemas
+- Se os filtros não responderem, verifique o botão “Aplicar Filtros”. Ele usa o estado atual; mudar selects/sliders e clicar aplica o conjunto correto.
+- Em “Ordenar por”, o valor “Soft skills” depende da média calculada das soft skills do candidato (Likert 1–5 → 0–100).
+- Localização permanece desativada quando Home office = “Sim” ou Modalidade = “Remoto”.
 
-## Regras de Desenvolvimento
-- Utilize toda informação disponível no diretório.
-- Código modular, validado e com sanitização básica no backend.
-- Padrões do projeto: JS puro (sem TS), sem libs de gráficos externas.
-- Não quebrar funcionalidades existentes (endpoints de nomes mantidos).
-- UI clara, responsiva, sem gradientes; acessível (ARIA nos gráficos SVG).
+## Licença
+Uso interno durante o hackathon (sem licença pública definida).
 

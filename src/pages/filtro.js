@@ -1,3 +1,4 @@
+﻿import candidatesData from '../../candidates_portugal.json';
 import { useEffect, useState } from "react";
 import Filters from "@/components/Filters";
 import KPIs from "@/components/KPIs";
@@ -10,7 +11,7 @@ function deriveStacks(c) {
   const addIf = (cond, label, set) => { if (cond) set.add(label); };
   const has = (keys) => keys.some((k) => tags.some((t) => t.includes(k)));
   const s = new Set();
-  // Languages
+  // Languages / áreas
   addIf(has(['javascript','js','node','react','vue','next']) || role.includes('front') || role.includes('back'), 'JavaScript', s);
   addIf(has(['typescript','ts']) || role.includes('front') || role.includes('full'), 'TypeScript', s);
   addIf(has(['python']) || role.includes('data') || role.includes('ml') || role.includes('ai'), 'Python', s);
@@ -46,81 +47,15 @@ function deriveStacks(c) {
   return Array.from(s);
 }
 
-// Mocked candidates
-const MOCK_CANDIDATES = [
-  {
-    _id: 'c1', name: 'Ana Souza', role: 'Desenvolvedora Frontend', location: 'São Paulo',
-    work_mode: 'remote', carga: 'full_time', relocate: 'no', years_experience: 4,
-    tags: ['react','typescript','javascript','css','tailwind','next'], total_score: 82, hard_score: 78,
-    soft_skills: { 'Comunicação': 4, 'Colaboração': 5, 'Liderança': 3, 'Adaptabilidade': 4, 'Resolução de Problemas': 4, 'Criatividade': 4 },
-  },
-  {
-    _id: 'c2', name: 'Bruno Lima', role: 'Engenheiro Backend', location: 'Rio de Janeiro',
-    work_mode: 'hybrid', carga: 'full_time', relocate: 'yes', years_experience: 6,
-    tags: ['node','typescript','docker','aws','postgres','express'], total_score: 88, hard_score: 84,
-    soft_skills: { 'Comunicação': 3, 'Colaboração': 4, 'Liderança': 4, 'Adaptabilidade': 5, 'Resolução de Problemas': 5, 'Criatividade': 3 },
-  },
-  {
-    _id: 'c3', name: 'Carla Mendes', role: 'Cientista de Dados', location: 'Belo Horizonte',
-    work_mode: 'remote', carga: 'part_time', relocate: 'no', years_experience: 3,
-    tags: ['python','ml','pandas','gcp','sql'], total_score: 79, hard_score: 76,
-    soft_skills: { 'Comunicação': 4, 'Colaboração': 4, 'Liderança': 3, 'Adaptabilidade': 4, 'Resolução de Problemas': 5, 'Criatividade': 4 },
-  },
-  {
-    _id: 'c4', name: 'Diego Alves', role: 'DevOps Engineer', location: 'Curitiba',
-    work_mode: 'onsite', carga: 'full_time', relocate: 'yes', years_experience: 5,
-    tags: ['aws','kubernetes','docker','terraform','go'], total_score: 85, hard_score: 83,
-    soft_skills: { 'Comunicação': 3, 'Colaboração': 5, 'Liderança': 3, 'Adaptabilidade': 4, 'Resolução de Problemas': 5, 'Criatividade': 3 },
-  },
-  {
-    _id: 'c5', name: 'Eduarda Pires', role: 'Mobile Developer', location: 'Porto Alegre',
-    work_mode: 'hybrid', carga: 'part_time', relocate: 'no', years_experience: 2,
-    tags: ['kotlin','android','swift','ios'], total_score: 72, hard_score: 70,
-    soft_skills: { 'Comunicação': 5, 'Colaboração': 4, 'Liderança': 2, 'Adaptabilidade': 4, 'Resolução de Problemas': 3, 'Criatividade': 5 },
-  },
-  {
-    _id: 'c6', name: 'Felipe Santos', role: 'Full Stack Developer', location: 'Recife',
-    work_mode: 'remote', carga: 'full_time', relocate: 'yes', years_experience: 7,
-    tags: ['react','node','typescript','next','postgres','docker'], total_score: 91, hard_score: 90,
-    soft_skills: { 'Comunicação': 4, 'Colaboração': 5, 'Liderança': 4, 'Adaptabilidade': 5, 'Resolução de Problemas': 5, 'Criatividade': 4 },
-  },
-  {
-    _id: 'c7', name: 'Gabriela Rocha', role: 'QA Engineer', location: 'São Paulo',
-    work_mode: 'onsite', carga: 'full_time', relocate: 'no', years_experience: 4,
-    tags: ['cypress','jest','javascript','typescript'], total_score: 74, hard_score: 71,
-    soft_skills: { 'Comunicação': 4, 'Colaboração': 5, 'Liderança': 3, 'Adaptabilidade': 3, 'Resolução de Problemas': 4, 'Criatividade': 3 },
-  },
-  {
-    _id: 'c8', name: 'Hugo Pereira', role: 'Engenheiro Backend', location: 'Florianópolis',
-    work_mode: 'remote', carga: 'full_time', relocate: 'yes', years_experience: 8,
-    tags: ['java','spring','aws','kubernetes','mysql'], total_score: 87, hard_score: 85,
-    soft_skills: { 'Comunicação': 3, 'Colaboração': 4, 'Liderança': 5, 'Adaptabilidade': 4, 'Resolução de Problemas': 5, 'Criatividade': 3 },
-  },
-];
-
-// Expande a lista mock clonando variações leves para testes de filtro
-function expandCandidates(base = [], times = 3) {
-  const locs = ['Porto', 'Lisboa', 'Algarve', 'Braga'];
-  const out = [...base];
-  for (let t = 1; t <= times; t++) {
-    base.forEach((c, idx) => {
-      const id = `${c._id}_x${t}`;
-      const name = c.name; // manter o nome sem números
-      const location = locs[(idx + t) % locs.length];
-      const tweak = (v) => Math.max(50, Math.min(100, Math.round((Number(v)||0) + (t*3) - (idx%2?2:0))));
-      out.push({
-        ...c,
-        _id: id,
-        name,
-        location,
-        total_score: tweak(c.total_score),
-        hard_score: tweak(c.hard_score),
-      });
-    });
-  }
-  return out;
+// Normaliza localizações para o conjunto: Porto, Lisboa, Algarve, Braga
+function normalizeLocation(raw) {
+  const s = String(raw || '').toLowerCase();
+  if (s.includes('porto')) return 'Porto';
+  if (s.includes('lisb') || s.includes('lx') || s.includes('lisbon')) return 'Lisboa';
+  if (s.includes('algarve') || s.includes('faro') || s.includes('lagos') || s.includes('albufeira')) return 'Algarve';
+  if (s.includes('braga')) return 'Braga';
+  return 'Lisboa';
 }
-
 export default function Fil() {
   const [filters, setFilters] = useState({
     search: "",
@@ -140,11 +75,9 @@ export default function Fil() {
   const [stacks, setStacks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [kpis, setKpis] = useState(null);
-  const initialExpanded = expandCandidates(MOCK_CANDIDATES, 7);
-  const fixedLocs = ['Porto', 'Lisboa', 'Algarve', 'Braga'];
-  const normalized = initialExpanded.map((c, i) => ({ ...c, location: fixedLocs[i % fixedLocs.length] }));
-  const [candidates, setCandidates] = useState(normalized);
-  const [list, setList] = useState(normalized);
+  const baseData = Array.isArray(candidatesData) ? candidatesData : [];
+  const [candidates, setCandidates] = useState(baseData);
+  const [list, setList] = useState(baseData);
   const [selectedIds, setSelectedIds] = useState([]);
 
   function computeSoftScore(c) {
@@ -158,7 +91,8 @@ export default function Fil() {
     try {
       const uniq = (arr) => Array.from(new Set(arr.filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b)));
       setRoles(uniq(candidates.map((c) => c.role)));
-      setLocations(uniq(candidates.map((c) => c.location)));
+      // aplica normalização nas opções de localização
+      setLocations(uniq(candidates.map((c) => normalizeLocation(c.location))));
       const stacksSet = new Set();
       candidates.forEach((c) => deriveStacks(c).forEach((x) => stacksSet.add(x)));
       setStacks(Array.from(stacksSet).sort((a, b) => a.localeCompare(b)));
@@ -183,7 +117,7 @@ export default function Fil() {
 
       const filtered = candidates.filter((c) => {
         if (f.role && c.role !== f.role) return false;
-        if (!disableRegion && f.location && c.location !== f.location) return false;
+        if (!disableRegion && f.location && normalizeLocation(c.location) !== f.location) return false;
         if (f.modalidade && c.work_mode !== f.modalidade) return false;
         if (f.carga && c.carga !== f.carga) return false;
         if (f.relocate && (f.relocate === 'yes' ? c.relocate !== 'yes' : c.relocate !== 'no')) return false;
@@ -242,22 +176,22 @@ export default function Fil() {
 
         <KPIs kpis={kpis} />
 
-        {/* Seleção para comparação */}
+        {/* SeleÃ§Ã£o para comparaÃ§Ã£o */}
         <section className="ui-panel p-4">
           <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div className="text-sm text-gray-800">Selecionados para comparação ({selectedIds.length}/3)</div>
+            <div className="text-sm text-gray-800">Selecionados para comparaÃ§Ã£o ({selectedIds.length}/3)</div>
             <div className="flex gap-2 flex-wrap">
               {selectedIds.map((id) => {
                 const c = list.find((x) => x._id === id) || candidates.find((x) => x._id === id);
                 return c ? (
                   <span key={id} className="ui-chip inline-flex items-center">
                     {c.name}
-                    <button className="ml-2 text-gray-500 hover:text-gray-700" onClick={() => toggleSelected(id)}>×</button>
+                    <button className="ml-2 text-gray-500 hover:text-gray-700" onClick={() => toggleSelected(id)}>Ã—</button>
                   </span>
                 ) : null;
               })}
               {selectedIds.length > 0 && (
-                <button className="text-sm text-violet-700 hover:text-violet-900" onClick={() => setSelectedIds([])}>Limpar seleção</button>
+                <button className="text-sm text-violet-700 hover:text-violet-900" onClick={() => setSelectedIds([])}>Limpar seleÃ§Ã£o</button>
               )}
             </div>
           </div>
@@ -284,3 +218,7 @@ export default function Fil() {
     </>
   );
 }
+
+
+
+
