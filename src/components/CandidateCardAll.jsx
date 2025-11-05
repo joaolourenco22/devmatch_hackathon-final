@@ -110,12 +110,7 @@ export default function CandidateCardAll({ candidate, index = 0, onClick, select
       </div>
 
       {/* Header */}
-      <div className="flex flex-col items-center text-center">
-        <div className="relative -mt-2 mb-2">
-          <div className="w-20 h-20 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-xl font-semibold ring-4 ring-white shadow" aria-label="Avatar">
-            {initials(candidate.name)}
-          </div>
-        </div>
+      <div className="flex flex-col items-center text-center pt-5 pb-5">
         <div className="text-lg font-semibold text-[var(--foreground)]">{candidate.name}</div>
         <div className="text-sm text-[color:var(--text-muted)]">{candidate.role}</div>
       </div>
