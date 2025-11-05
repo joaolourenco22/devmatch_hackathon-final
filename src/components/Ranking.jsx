@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Ranking({ candidates = [], selectedIds = [], onToggleSelect, activeId, onActiveChange }) {
   return (
-    <div className="ui-panel p-2 overflow-auto">
+    <div className="ui-panel p-2 overflow-y-auto max-h-[420px]">
       <table className="min-w-full text-sm">
         <thead>
           <tr className="text-left text-gray-800">
