@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 
 const items = [
-  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Início', href: '/dashboard' },
   { label: 'Candidatos', href: '/candidatos' },
   { label: 'Filtrar Candidato', href: '/filtro'},
 ];
