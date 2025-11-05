@@ -38,7 +38,7 @@ const items = [
   { label: 'Início', href: '/dashboard', icon: IconHome },
   { label: 'Candidatos', href: '/candidatos', icon: IconUsers },
   { label: 'Filtrar Candidato', href: '/filtro', icon: IconFilter },
-  { label: 'Vagas', href: '/', icon: IconLuggage },
+  { label: 'Vagas', href: '#', icon: IconLuggage },
 ];
 
 export default function Sidebar2() {
