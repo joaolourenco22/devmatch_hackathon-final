@@ -99,7 +99,7 @@ export default function Home() {
           <section className="lg:col-span-2">
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-sm text-gray-700">Ranking e Seleção para Comparar</h2>
-              <div className="text-xs text-gray-600">Selecione até 3</div>
+              <div className="ui-chip text-xs">Selecione até 3</div>
             </div>
             <Ranking
               candidates={candidates}
