@@ -77,17 +77,7 @@ export default function Home() {
           <h1 className="text-xl font-semibold">Dashboard do Recrutador</h1>
         </header>
 
-        <Filters
-          filters={filters}
-          onFiltersChange={setFilters}
-          weightHard={weightHard}
-          onWeightHardChange={setWeightHard}
-          loading={loading}
-          onApply={loadAll}
-        />
-
-        <KPIs kpis={kpis} />
-
+     
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <section className="lg:col-span-2">
             <div className="flex items-center justify-between mb-2">
