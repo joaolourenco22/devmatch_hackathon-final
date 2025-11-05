@@ -52,10 +52,10 @@ export default function Sidebar2() {
                 <li key={it.label}>
                   <Link
                     href={it.href}
-                    className={`group relative flex items-center gap-3 px-3.5 py-2 rounded-xl text-sm transition-colors border border-white/10 ${active ? 'bg-white/15 text-white' : 'bg-white/5 hover:bg-white/10 text-white/90'}`}
+                    className={`group relative flex items-center gap-3 px-3.5 py-2 rounded-xl text-sm transition-colors ${active ? 'text-white' : 'text-white/90 hover:text-white'}`}
                     aria-current={active ? 'page' : undefined}
                   >
-                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded-lg text-white/90 transition-colors ${active ? 'bg-white/20' : 'bg-white/10 group-hover:bg-white/20'}`}>
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-white/90">
                       <ActiveIcon />
                     </span>
                     <span className="flex-1 font-medium">{it.label}</span>
@@ -72,4 +72,3 @@ export default function Sidebar2() {
     </aside>
   );
 }
-
